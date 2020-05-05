@@ -5,7 +5,7 @@ Java, CSS, JavaScript...
 ryhmätyöstä sekä projekteihin liittyvästä suullisesta ja kirjallisesta viestinnästä. Projekteissa opiskelijat saavat myös kokemusta 
 kurssien harjoitustöitä laajempien ohjelmistojen määrittelystä, suunnittelusta, toteuttamisesta ja testaamisesta sekä tarvittavien 
 dokumenttien laatimisesta."
-- Jukka-Pekka Santanen
+-Jukka-Pekka Santanen
 
 Moveatis 2.0 on verkossa toimiva opetustilanteiden analysointisovellus. Moveatis 2.0 sisältää kaksi erillistä analysointimenetelmää: 
 puheen luokitteluun perustuvan Palauteanalyysin sekä kestoa tai tapahtumakertoja mittaavan Observoinnin.
