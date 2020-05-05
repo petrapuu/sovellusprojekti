@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="mainpage">
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputScript library="js" name="frontpage.js" />
+			<nav> <h:form>
+				<h:panelGroup>
+					<div class="accessButtons" style="min-height: 200px;">
+						<p:commandButton value="#{msg.fp_tagUserButton}"
+							onclick="PF('dlg1').show();"
+							style="width: 200px; margin-top: 15px" class="coloredButton" />
+						<p:commandButton value="#{msg.fp_identifiedUserButton}"
+							style="width: 200px; margin-top: 15px" class="coloredButton"
+							actionListener="#{loginBean.doIdentityLogin}" />
+						<p:commandButton value="#{msg.fp_anonUserButton}"
+							style="width: 200px; margin-top: 15px" class="coloredButton"
+							action="#{loginBean.doAnonymityLogin()}" />
+					</div>
+				</h:panelGroup>
+			</h:form> <!-- TODO: REQUIRES VALIDATION --> <p:dialog
+				header="#{msg.fp_giveGroupKey}" widgetVar="dlg1" minHeight="80"
+				position="top" resizable="false" responsive="true" modal="true"
+				fitViewport="true" class="coloredDialog">
+				<h:form>
+					<p:inputText id="tagField" autocomplete="off"
+						value="#{loginBean.tag}" required="true" />
+					<p:commandButton icon="ui-icon-check"
+						action="#{loginBean.doTagLogin}" />
+				</h:form>
+			</p:dialog> </nav>
+			<div id="textContentFrontPage">
+				<h:panelGroup styleClass="welcomeContent"
+					rendered="#{applicationManagedBean.installed}">
+					<h:outputText escape="false" value="#{msg.fp_infoText}" />
+					<h:outputLink value="#{msg.fp_infoLink}">
+						<h:outputText value="#{msg.fp_infoLinkText}"
+							style="text-decoration: underline" />
+					</h:outputLink>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{!applicationManagedBean.installed}"
+					style="margin-top: 10em;">
+					<h:form>
+						<h:outputText value="#{msg.installationHelp} " />
+						<h:commandLink value="#{msg.installationLink}"
+							style="text-decoration: underline;"
+							action="#{applicationManagedBean.doInstall}" />
+					</h:form>
+				</h:panelGroup>
+			</div>
+			<div id="picture">
+				<p:graphicImage library="images" name="etusivu.png" />
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

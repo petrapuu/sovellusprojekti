@@ -1,0 +1,552 @@
+/*
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* 
+	last modified: 21.5.2019 by Petra Puumala
+	Author     : Jarmo Juujarvi (based on base.css by Sami kallio)
+*/
+/*
+The base stylesheet for Moveatis-webapplication
+*/
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	color: black;
+	background-color: #EFEFEF;
+	background-size: 100%;
+	background-attachment: fixed;
+	font-family: 'Roboto', sans-serif;
+}
+
+/* Use same font family on widgets for consistency
+	(excluding .fa elements) */
+
+.ui-widget:not(.fa) {
+	font-family: 'Roboto', sans-serif;}
+
+/* Sticky footer based on this:
+   http://ryanfait.com/resources/footer-stick-to-bottom-of-page/ */
+
+.wrapper {
+	min-height: 100%;
+	margin: 0 auto -1.875em;
+	text-align: justify;
+}
+
+.push {
+	height: 1.875em;
+}
+
+/* footer and header */
+
+#footer {
+	height: 1.875em;
+	font-size: 1em;
+	background-color: #008AB9;
+	clear: both;
+	text-align: center;
+}
+
+#naviHead {
+	letter-spacing: 0.063em;
+}
+
+#footer a:link {
+	text-decoration: none;
+	color: #FEFEFE;
+}
+
+#footer a:visited {
+	text-decoration: none;
+	color: #FEFEFE;
+}
+
+#footer a:active {
+	text-decoration: none;
+	color: #FEFEFE;
+}
+
+#footer a:hover {
+	text-decoration: none;
+	color: #FEFEFE;
+}
+
+#naviHead a:link {
+	text-decoration: none;
+	color: #FEFEFE;
+}
+
+#naviHead a:visited {
+	text-decoration: none;
+	color: #FEFEFE;
+}
+
+#naviHead a:active {
+	text-decoration: none;
+	color: #FEFEFE;
+}
+
+#naviHead a:hover {
+	text-decoration: none;
+	color: #FEFEFE;
+}
+
+.naviHeader {
+	height: 1.75em;
+	background: #008AB9;
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background-size: 100%;
+	text-align: center;
+	border: 0;
+	border-radius: 0;
+	color: white;
+}
+
+#naviHead .ui-icon.fa {
+	border-radius: 0;
+	width: auto;
+	height: auto;
+	padding: 0 0.2em;
+	font-size: 120%;
+}
+
+.naviHeader>ul {
+	float: right;
+}
+
+.ui-menu .ui-menuitem-link {
+	line-height: 1.21em;
+}
+
+.ui-menubar>.ui-menuitem-link {
+	width: auto;
+	padding: 0.3em 0.9em;
+	line-height: 1.21em;
+}
+
+.ui-menu .ui-menu-parent .ui-icon-triangle-1-s {
+	display: none;
+}
+
+.ui-menu .ui-menu-parent .ui-icon-triangle-1-e {
+	display: none;
+}
+
+div > ul > li.ui-widget.ui-menuitem.ui-corner-all.ui-menu-parent.ui-menuitem-active > ul {
+	white-space: nowrap;
+	width: 15em;
+}
+
+.naviButtons {
+	display: table-cell;
+	text-align: center;
+	float: right;
+}
+
+/* Naviheader styles menu */
+
+.naviHeader.ui-menu, .naviHeader.ui-menu .ui-menu-child {
+	background: #008AB9;
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.4)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	color: white;
+}
+
+.naviHeader .ui-state-hover, .naviHeader .ui-widget-content .ui-state-hover, .naviHeader .ui-widget-header .ui-state-hover, .naviHeader .ui-state-focus, .naviHeader .ui-widget-content .ui-state-focus, .naviHeader .ui-widget-header .ui-state-focus {
+	border: 0.063em solid #008AB9;
+	background: #008AB9;
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.6)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+	font-weight: normal;
+	color: black;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.naviHeader .ui-widget-content {
+	border: none;
+}
+
+#naviHead .naviHeader.ui-menu-parent>.ui-menu-list .ui-menuitem-link {
+	width: 95%;
+}
+
+#naviHead .ui-menuitem, #naviHead .ui-menuitem-link {
+	margin: 0;
+}
+
+.naviHeader>.ui-menu-list {
+	margin-top: -0.2em;
+}
+
+.naviFooter {
+	width: 100%;
+	float: right;
+	height: 1.25em;
+	background-size: 50%;
+	background-color: #008AB9;
+	align-content: flex-end;
+	text-align: center;
+	color: white;
+}
+
+.facetLeft {
+	position: absolute;
+	left: 0;
+	top: 0;
+	padding-left: 0.5em;
+	padding-top: 0.1em;
+	font-size: 140%;
+}
+
+.fa-user {
+	float: right;
+}
+
+.ui-dialog-footer {
+	background: transparent none repeat scroll 0% 0%;
+	border: medium none;
+	float: right;
+}
+
+.ui-confirmdialog-no {
+	float: right;
+}
+
+.ui-growl .ui-growl-icon-close {
+	display: block;
+	background-color: white;
+	opacity: 0.7;
+	-webkit-box-shadow: 0.125em 0.125em 0.063em -0.063em rgba(0, 0, 0, 0.6);
+	-moz-box-shadow: 0.125em 0.125em 0.063em -0.063em #000;
+	box-shadow: 0.125em 0.125em 0.063em -0.063em #000;
+	border-radius: 0.313em;
+	border: 0.313em solid;
+}
+
+.ui-growl .ui-growl-icon-close:hover {
+	opacity: 1;
+}
+
+/* basic link styling */
+
+a:link {
+	text-decoration: none;
+	color: #000000;
+}
+
+a:visited {
+	text-decoration: none;
+	color: #000000;
+}
+
+a:active {
+	text-decoration: none;
+	color: #000000;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #AF2A01;
+}
+
+/* pictures */
+
+#picture {
+	height: auto;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+}
+
+#picture img {
+	max-width: 40%;
+	max-height: 100%;
+}
+
+#picture2 {
+	padding-left: 10%;
+	padding-top: 3em;
+	width: 90%;
+	margin: auto;
+	display: inline-block;
+	text-align: center;
+}
+
+#picture2 img {
+	width: 40%;
+}
+
+#picture2 img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* left side navigation */
+
+nav {
+	float: left;
+	width: 24%;
+	border: none;
+	margin-right: 0.5em;
+	padding-right: 0.5em;
+}
+
+#mainPage > nav {
+	height: 8em;
+}
+
+/* content divs */
+
+.welcomeContent {
+	float: left;
+	width: 65%;
+	display: block;
+	padding: 1em;
+	margin-left: 1em;
+}
+
+.textContentArea {
+	width: 70%;
+	margin: 1% auto 1% auto;
+	display: block;
+	padding: 2.5em;
+}
+
+/* buttons */
+
+.accessButtons {
+	width: 9.5em;
+	height: 2.0em;
+	margin: auto auto auto auto;
+	/*    display: block;*/
+	text-align: center;
+	padding: 1.0em;
+}
+
+.coloredButton:hover, .coloredButton:active {
+	color: white;
+	background: #008AB9;
+}
+
+.coloredButton {
+	letter-spacing: 0.063em;
+	background: #008AB9;
+	color: white;
+	font-size: 100%;
+	text-shadow: none;
+	border: none;
+	color: #fff;
+	background: #008AB9;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+/* Dialog style */
+
+.coloredDialog {
+	top: 20%;
+	background: #008AB9;
+	color: #FEFEFE;
+}
+
+.coloredDialog .ui-dialog-titlebar {
+	background: #008AB9;
+	background: #008AB9 linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	background: #008AB9 -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.3)), to(rgba(255, 255, 255, 0)));
+	background: #008AB9 -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+	color: #FEFEFE;
+	text-shadow: none;
+	font-weight: normal;
+}
+
+.coloredDialog .ui-dialog-titlebar-close, .ui-dialog-titlebar-close:hover {
+	background: none;
+	box-shadow: none;
+	border: none;
+	text-shadow: none;
+	font-weight: normal;
+}
+
+.coloredDialog .ui-icon-closethick {
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_ffffff_256x240.png);
+}
+
+.coloredDialog form label {
+	color: #FEFEFE;
+}
+
+.coloredDialog .ui-fluid .ui-button {
+	width: auto;
+}
+
+.coloredDialog .ui-fluid .ui-button {
+	width: auto;
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+	margin-right: 0.5em;
+	border: 0;
+}
+
+.coloredDialog form input, .coloredDialog form textarea, .coloredDialog form table {
+	margin-bottom: 0.8em;
+}
+
+.coloredDialog form button {
+	margin-bottom: 0.4em;
+}
+
+.ui-dialog-content {
+	overflow-y: auto;
+	max-height: calc(100vh - 4.063em);
+	max-width: 24em;
+}
+
+.ui-dialog-content .ui-state-error {
+	border-width: 0.125em;
+}
+
+/* Error icon change */
+
+.ui-message-error-icon {
+	background: none;
+}
+
+.ui-message-error-icon:before {
+	content: "\f12a";
+	font-family: FontAwesome;
+	margin-left: .2em;
+}
+
+/* responsivity */
+
+@media screen and (max-width: 800px) {
+	nav {
+		padding-top: 1.0em;
+		width: 96%;
+		margin: 1% auto 1% auto;
+		border: none;
+		height: 4em;
+	}
+	.welcomeContent {
+		width: 85%;
+		padding-top: 1em;
+	}
+	.textContentArea {
+		width: 70%;
+		margin: auto auto auto auto;
+		display: block;
+		padding: 2.5em;
+	}
+	.naviHeader {
+		height: 1.75em;
+		background-color: #008AB9;
+		background-size: 100%;
+		text-align: center;
+		color: white;
+	}
+	.naviButtons {
+		width: 3.125em;
+		height: 0.625em;
+		display: table-cell;
+		text-align: center;
+		float: right;
+	}
+	.accessButtons {
+		display: table;
+		text-align: center;
+		padding: 0.2em;
+		color: white;
+	}
+	.coloredButton:hover, .coloredButton:active {
+		color: white;
+		background: #008AB9;
+	}
+	.coloredButton {
+		letter-spacing: 0.063em;
+		border: none;
+		background: #008AB9;
+		color: #fff;
+		background: #008AB9;
+		font-weight: 700;
+		outline: none;
+		position: relative;
+		-webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+	.naviFooter {
+		width: 100%;
+		float: right;
+		height: 1.25em;
+		background-size: 50%;
+		background-color: #008AB9;
+		text-align: center;
+		color: white;
+	}
+	#picture {
+		height: auto;
+		width: 90%;
+		margin: auto;
+		display: inline-block;
+	}
+	#picture2 {
+		padding-top: 1em;
+		height: auto;
+		width: 80%;
+		margin: auto;
+		display: inline-block;
+	}
+	#picture2 img {
+		width: 80%;
+	}
+}

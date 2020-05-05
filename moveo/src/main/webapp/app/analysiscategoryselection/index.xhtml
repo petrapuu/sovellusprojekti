@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="pageTitle">#{msg.facs_title}</ui:define>
+		<ui:define name="mainpage">
+			<h:outputStylesheet library="css"
+				name="analysiscategoryselection.css" />
+			<div id="container">
+				<h:panelGroup layout="block"
+					rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.eventGroup}">
+					<h1>#{msg.facs_heading}</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.eventGroup}">
+					<h1>
+						<h:outputFormat value="#{msg.facs_headingEvent}">
+							<f:param
+								value="#{feedbackAnalysisCategorySelectionManagedBean.eventGroup.label}" />
+						</h:outputFormat>
+					</h1>
+				</h:panelGroup>
+				<h2>#{msg.facs_addedCategorySets}</h2>
+				<h:form id="form" onkeypress="return captureEnter(event);">
+					<p:growl id="growl" showDetail="true" />
+					<p:confirmDialog global="true">
+						<p:commandButton value="#{msg.dialogConfirmYes}" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="#{msg.dialogConfirmNo}" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+					<h:outputText value="#{msg.facs_noCategorySetsText}"
+						rendered="#{empty feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse}" />
+					<h:panelGroup id="category-sets">
+						<ui:repeat
+							value="#{feedbackAnalysisCategorySelectionManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+							var="categorySet" varStatus="status">
+							<h:panelGroup id="category-set"
+								styleClass="category-set category-set-#{status.index}">
+								<p:commandLink
+									styleClass="fa fa-remove category-set-remove-button"
+									action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategorySet(status.index)}"
+									immediate="true" update="@form">
+									<p:confirm header="#{msg.dialogConfirmTitle}"
+										message="#{msg.facs_confirmRemoveCategorySet}"
+										icon="ui-icon-alert" />
+								</p:commandLink>
+								<h2>#{categorySet.label}</h2>
+								<h:panelGroup layout="block" styleClass="no-categories-text"
+									rendered="#{empty categorySet.categoryEntitys}">
+									<h:outputText value="#{msg.facs_noCategoriesText}" />
+								</h:panelGroup>
+								<ui:repeat
+									value="#{categorySet.categoryEntitys.values().toArray()}"
+									var="category">
+									<div class="category">
+										<p:inputText value="#{category.label.text}"
+											id="category-name-input" styleClass="category-text"
+											validator="#{validationBean.validateShortString}"
+											onblur="this.value=this.value.trim()">
+											<p:ajax event="blur" process="@this" update="@this form:growl" />
+										</p:inputText>
+										<p:watermark for="category-name-input" value="#{msg.facs_categoryName}" />
+										<p:commandButton icon="fa fa-remove"
+											class="category-remove-button"
+											immediate="true"
+											action="#{feedbackAnalysisCategorySelectionManagedBean.removeCategoryFromCategorySet(categorySet,category)}"
+											update="form:category-sets form:continue-button">
+										</p:commandButton>
+									</div>
+								</ui:repeat>
+								<p:commandButton value="#{msg.facs_newCategory}"
+									icon="fa fa-plus" styleClass="new-category-button"
+									action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategoryToCategorySet(categorySet)}"
+									update="category-set form:continue-button form:growl" process="@this category-set"
+									oncomplete="focusCategory('.category-set-#{status.index}');" />
+							</h:panelGroup>
+						</ui:repeat>
+					</h:panelGroup>
+					<br /><br /><br />
+					<h2>#{msg.facs_addCategorySets}</h2>
+					<h:panelGroup layout="block" styleClass="category-set-list">	
+						<p:message id="new-category-set-error" for="new-category-set" />
+						<p:outputLabel for="new-category-set"
+							value="#{msg.facs_newCategorySet}:"
+							styleClass="category-set-list-label" />						
+						<p:inputText
+							value="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName}"
+							id="new-category-set" styleClass="category-set-list-input"
+							validator="#{validationBean.validateShortString}"
+							onblur="this.value=this.value.trim()" >
+							<p:ajax event="keyup" process="@this" update="addCategorySetButton new-category-set-error"/>
+							</p:inputText>
+						<p:watermark for="new-category-set" value="#{msg.facs_categorySetName}"/>
+						<p:commandButton id="addCategorySetButton" value="#{msg.facs_addCategorySet}"
+							style="vertical-align: middle" process="@this new-category-set"
+							disabled="#{feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName==null||feedbackAnalysisCategorySelectionManagedBean.newFeedbackAnalysisCategorySetName.isEmpty()}"
+							action="#{feedbackAnalysisCategorySelectionManagedBean.addNewCategorySet()}"
+							update="@form" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="category-set-list"
+						rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.privateFeedbackAnalysisCategorySets.toArray()}">
+						<p:outputLabel for="private-category-sets"
+							value="#{msg.facs_privateCategorySets}:"
+							styleClass="category-set-list-label" />
+						<p:selectOneMenu id="private-category-sets"
+							value="#{feedbackAnalysisCategorySelectionManagedBean.selectedPrivateFeedbackAnalysisCategorySet}"
+							styleClass="category-set-list-select">
+							<f:selectItems
+								value="#{feedbackAnalysisCategorySelectionManagedBean.privateFeedbackAnalysisCategorySets.toArray()}"
+								var="categorySet" itemLabel="#{categorySet.label}"
+								itemValue="#{categorySet.id}" />
+						</p:selectOneMenu>
+						<p:commandButton value="#{msg.facs_addCategorySet}"
+							style="vertical-align: middle"
+							action="#{feedbackAnalysisCategorySelectionManagedBean.addPrivateCategorySet}"
+							update="@form" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="category-set-list-last"
+						rendered="#{not empty feedbackAnalysisCategorySelectionManagedBean.defaultFeedbackAnalysisCategorySets.toArray()}">
+						<p:outputLabel for="default-category-sets"
+							value="#{msg.facs_defaultCategorySets}:"
+							styleClass="category-set-list-label" />
+						<p:selectOneMenu id="default-category-sets"
+							value="#{feedbackAnalysisCategorySelectionManagedBean.selectedDefaultFeedbackAnalysisCategorySet}"
+							styleClass="category-set-list-select">
+							<f:selectItems
+								value="#{feedbackAnalysisCategorySelectionManagedBean.defaultFeedbackAnalysisCategorySets.toArray()}"
+								var="categorySet" itemLabel="#{categorySet.label}"
+								itemValue="#{categorySet.id}" />
+						</p:selectOneMenu>
+						<p:commandButton value="#{msg.facs_addCategorySet}"
+							style="vertical-align: middle"
+							action="#{feedbackAnalysisCategorySelectionManagedBean.addDefaultCategorySet}"
+							update="@form" />
+					</h:panelGroup>
+					<br />
+					<p:selectBooleanCheckbox
+						value="#{feedbackAnalysisCategorySelectionManagedBean.isTimerEnabled}"
+						itemLabel="#{msg.facs_timer}" >
+						<p:ajax process="@this"/>
+						</p:selectBooleanCheckbox>
+					<div id="continue-div">
+						<p:commandButton value="#{msg.facs_continueToAnalysis}"
+							id="continue-button"
+							disabled="#{feedbackAnalysisCategorySelectionManagedBean.isContinueDisabled()}"
+							action="#{feedbackAnalysisCategorySelectionManagedBean.checkCategories}"
+							process="@this category-sets" update="@form" />
+					</div>
+				</h:form>
+			</div>
+			<h:outputScript>
+				function focusCategory(category_set_class) {
+					var category_set = $(category_set_class);
+					if (category_set.length) {
+						setTimeout(function () {
+							category_set.find(".category-text").last().focus();
+						}, 200);
+					}
+				}
+
+				function captureEnter(event) {
+					if (event.keyCode !== 13)
+						return true;
+					var focused = $(":focus");
+					if (focused.hasClass("category-text")) {
+						focused.blur();
+						var button = focused.parent().next("button");
+						if (button.length) button.click();
+					} else if (focused.hasClass("category-set-list-input")) {
+						var button = focused.next("button");
+						if (button.length) button.click();
+					}
+					return false;
+				}
+			</h:outputScript>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

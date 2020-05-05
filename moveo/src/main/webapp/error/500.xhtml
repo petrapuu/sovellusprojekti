@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="pageTitle">#{errormessages.errorPageTitle}</ui:define>
+		<ui:define name="mainpage">
+			<link type="text/css" rel="stylesheet"
+				href="/javax.faces.resource/primefaces.css.xhtml?ln=primefaces&amp;v=5.3" />
+			<h:outputText value="#{errormessages.errorMessageToUser}" />
+			<br />
+			<h:outputLink value="/">
+				<h:outputText value="#{errormessages.toFrontPage}" />
+			</h:outputLink>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

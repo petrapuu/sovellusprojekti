@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
+		<ui:define name="mainpage">
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputStylesheet library="css" name="analyzer.css" />
+			<h:form id="timerControls"
+				rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}">
+				<div id="timer_div">
+					<span id="timer_span"> <h:outputText id="txt_count"
+							value="#{feedbackAnalysisManagedBean.getDurationAsString()}" />
+					</span> <span id="pause_span"> <p:selectBooleanButton
+							value="#{feedbackAnalysisManagedBean.isTimerStopped}"
+							onLabel="#{msg.ana_continue_timer}" onIcon="fa fa-play"
+							offLabel="#{msg.ana_pause_timer}" offIcon="fa fa-pause" />
+					</span>
+					<p:poll id="timer" interval="1"
+						listener="#{feedbackAnalysisManagedBean.increment}"
+						update="txt_count" />
+				</div>
+			</h:form>
+			<h:form id="form">
+				<div id="content">
+					<div id="index">
+						<span class="arrows" id="toFirst"> <p:commandButton
+								value=" " id="firstAnalyze" icon="fa fa-fw fa-fast-backward"
+								action="#{feedbackAnalysisManagedBean.setCurrentRecord(1)}"
+								disabled="#{feedbackAnalysisManagedBean.isNavigationDisabled(true)}"
+								process="@this :form:currentRecordComment :form:categories"
+								update=":form" />
+						</span> <span class="arrows" id="toPrevious"> <p:commandButton
+								value=" " id="previousAnalyze"
+								action="#{feedbackAnalysisManagedBean.setCurrentRecord(feedbackAnalysisManagedBean.currentRecordNumber-1)}"
+								disabled="#{feedbackAnalysisManagedBean.isNavigationDisabled(true)}"
+								process="@this :form:currentRecordComment :form:categories"
+								update=":form" icon="fa fa-fw fa-arrow-left" />
+						</span>
+						<div id="pageNumber">
+							<h:outputText
+								value="#{feedbackAnalysisManagedBean.currentRecordNumber}/#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.records.size()}" />
+						</div>
+						<span class="arrows" id="toNext"> <p:commandButton
+								value=" " id="nextAnalyze" icon="fa fa-fw fa-arrow-right"
+								action="#{feedbackAnalysisManagedBean.setCurrentRecord(feedbackAnalysisManagedBean.currentRecordNumber+1)}"
+								disabled="#{feedbackAnalysisManagedBean.isNavigationDisabled(false)}"
+								process="@this :form:currentRecordComment :form:categories"
+								update=":form" />
+						</span> <span class="arrows" id="toLast"> <p:commandButton
+								value=" " id="lastAnalyze" icon="fa fa-fw fa-fast-forward"
+								action="#{feedbackAnalysisManagedBean.setCurrentRecord(feedbackAnalysisManagedBean.feedbackAnalysisEntity.records.size())}"
+								disabled="#{feedbackAnalysisManagedBean.isNavigationDisabled(false)}"
+								process="@this :form:currentRecordComment :form:categories"
+								update=":form" />
+						</span>
+					</div>
+					<h:panelGroup id="categories">
+						<ui:repeat
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+							var="categorySet">
+							<div id="categoryContent">
+								<div id="texts">
+									<h:outputText value="#{categorySet.label}" />
+								</div>
+								<div id="buttons">
+									<ui:repeat
+										value="#{categorySet.categoryEntitys.values().toArray()}"
+										var="category">
+										<p:selectBooleanButton value="#{category.inRecord}"
+											onLabel="#{category.label.text}"
+											offLabel="#{category.label.text}">
+											<p:ajax
+												listener="#{feedbackAnalysisManagedBean.setTimeStamp()}"
+												update=":form:timestamp :form:categories" />
+										</p:selectBooleanButton>
+									</ui:repeat>
+								</div>
+							</div>
+						</ui:repeat>
+						<h:panelGroup
+							rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}">
+							<div id="timestamp_div">
+								<span id="timestamp_name"> <h:outputText
+										id="txt_timestamp" value="#{msg.ana_timestamp}" />
+
+								</span> <span id="timestamp_span"> <p:commandLink
+										onclick="PF('dlgTimeSlider').show()" update=":timeSlider">
+										<h:outputText id="timestamp"
+											value="#{feedbackAnalysisManagedBean.getLongAsTimeStamp(feedbackAnalysisManagedBean.currentRecord.startTime)}" />
+									</p:commandLink>
+								</span>
+							</div>
+						</h:panelGroup>
+					</h:panelGroup>
+				</div>
+				<div id="basicContent">
+					<div id="textArea">
+						<p:message id="commentError" for="currentRecordComment" />
+						<p:inputTextarea id="currentRecordComment"
+							value="#{feedbackAnalysisManagedBean.currentRecord.comment}"
+							validator="#{validationBean.validateLongString}">
+							<p:watermark for="currentRecordComment"
+								value="#{msg.ana_comment}" />
+							<p:ajax event="blur" process="@this" update="commentError @this" />
+							<p:ajax event="keyup"
+								listener="#{feedbackAnalysisManagedBean.setTimeStamp()}"
+								update=":form:timestamp" />
+						</p:inputTextarea>
+					</div>
+					<div id="basicControls">
+						<p:commandButton id="new" value="#{msg.ana_new}"
+							action="#{feedbackAnalysisManagedBean.addRecord()}"
+							update=":form" />
+						<p:commandButton id="empty" value="#{msg.ana_empty}"
+							action="#{feedbackAnalysisManagedBean.resetCurrentRecord()}"
+							onclick="document.getElementById('form:currentRecordComment').value=''"
+							immediate="true" update=":form" />
+						<p:commandButton id="remove" value="#{msg.dlg_remove}"
+							action="#{feedbackAnalysisManagedBean.delete(feedbackAnalysisManagedBean.currentRecord.orderNumber)}"
+							immediate="true" update=":form">
+							<p:confirm header="#{msg.repo_confirmheader}"
+								message="#{analysisRecordTable.getConfirm(feedbackAnalysisManagedBean.currentRecord.orderNumber)}" />
+						</p:commandButton>
+						<p:commandButton id="continue" value="#{msg.ana_continue_report}"
+							update=":form"
+							action="#{feedbackAnalysisManagedBean.toRecordTable()}" />
+					</div>
+
+				</div>
+				<h:inputHidden
+					validator="#{feedbackAnalysisManagedBean.validateNonEmptyRecord}" />
+				<p:growl id="growl" showDetail="true" />
+							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes"  />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no"  />
+			</p:confirmDialog>
+			</h:form>
+
+			<p:dialog widgetVar="dlgTimeSlider" position="top" resizable="false"
+				responsive="true" modal="true" fitViewport="true"
+				class="coloredDialog">
+				<h:form id="timeSlider">
+					<h:outputText id="timeOutput"
+						value="#{feedbackAnalysisManagedBean.getLongAsTimeStamp(feedbackAnalysisManagedBean.currentRecord.startTime)}" />
+					<h:inputHidden id="secondsInput"
+						value="#{feedbackAnalysisManagedBean.currentRecord.startTime}">
+					</h:inputHidden>
+					<p:slider for="secondsInput"
+						minValue="#{feedbackAnalysisManagedBean.getMinTimeStampForCurrentRecord()}"
+						maxValue="#{feedbackAnalysisManagedBean.getMaxTimeStampForCurrentRecord()}">
+						<p:ajax event="slideEnd" update="timeOutput :form:timestamp"
+							process="secondsInput" />
+					</p:slider>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="pageTitle">Pääkäyttäjäsivu</ui:define>
+		<ui:define name="mainpage">
+			<h:outputStylesheet library="css" name="superuser.css" />
+			<div class="superuser_actions">
+				<H2>Pääkäyttäjän toiminnot</H2>
+				<h3>Tapahtumaryhmät ja tapahtumat</h3>
+				<h:form>
+					<p:growl autoUpdate="true" />
+					<p:panelMenu
+						style="width: 80%; max-width: 400px; min-width: 250px; font-size: 1em; overflow: hidden; white-space: no-wrap">
+						<p:submenu label="Omat" expanded="false">
+							<p:submenu label="Tapahtumaryhmä 1">
+								<p:submenu label="Tapahtuma 1">
+									<p:menuitem value="Observointi 1" />
+								</p:submenu>
+								<p:submenu label="Tapahtuma 2">
+									<p:menuitem value="Observointi 1" />
+									<p:menuitem value="Observointi 2" />
+									<p:menuitem value="Uusi observointi..."
+										icon="ui-icon-plusthick" />
+								</p:submenu>
+								<p:menuitem value="Uusi tapahtuma..." icon="ui-icon-plusthick"
+									style="color: black;" />
+							</p:submenu>
+							<p:menuitem value="Uusi tapahtumaryhmä..."
+								icon="ui-icon-plusthick" />
+						</p:submenu>
+						<p:submenu label="Yleiset" expanded="false">
+							<p:submenu label="Tapahtumaryhmä 1">
+								<p:submenu label="Tapahtuma 1">
+									<p:menuitem value="Observointi 1" />
+									<p:menuitem value="Observointi 2" />
+									<p:menuitem value="Uusi observointi..."
+										icon="ui-icon-plusthick" />
+								</p:submenu>
+								<p:submenu label="Tapahtuma 2">
+									<p:menuitem value="Observointi 1" />
+									<p:menuitem value="Observointi 2" />
+									<p:menuitem value="Uusi observointi..."
+										icon="ui-icon-plusthick" />
+								</p:submenu>
+								<p:menuitem value="Uusi tapahtuma..." icon="ui-icon-plusthick" />
+							</p:submenu>
+							<p:menuitem value="Uusi tapahtumaryhmä..."
+								icon="ui-icon-plusthick" />
+						</p:submenu>
+					</p:panelMenu>
+				</h:form>
+				<h:form>
+					<h3>Pääkäyttäjät</h3>
+					<p:dataTable id="superusers" var="???"
+						value="#{superuserBean.getSuperusers}" style="font-size: 1em;">
+						<p:column headerText="Käyttäjä">
+							<h:outputText value="#{superuser.id}" />
+						</p:column>
+						<p:column headerText="Voimassa">
+							<h:outputText value="#{superuser.validUntil}" />
+						</p:column>
+						<p:column headerText="Poista">
+							<input type="submit" value="" name="removeSuperuserRights" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+				<h:form>
+					<h:panelGrid columns="3"
+						style="width: 80%; max-width: 400px; min-width: 250px;">
+						<p:inputText id="user" placeholder="Käyttäjätunnus"
+							style="margin-right: 0.2em; width:90%; font-size: 1em;" size="8"
+							maxlength="8" />
+						<p:inputMask id="expirationDate" placeholder="01.01.2017"
+							value="#{maskView.date}" mask="99/99/9999" size="8"
+							style="margin-right: 0.2em; width:90%; font-size: 1em;" />
+						<p:commandButton id="addSuperuserButton" value="Lisää"
+							type="button" onclick="PF('addSuperuserConfirmation').show();"
+							style=" width:95%; height: 90%; font-size: 1em; float: right;" />
+					</h:panelGrid>
+					<p:dialog id="userToSuperuser"
+						header="Lisätään pääkäyttäjäoikeudet"
+						widgetVar="addSuperuserConfirmation" modal="true" width="300px">
+						<br />
+						<p:commandButton value="Ei" type="button"
+							styleClass="ui-confirmdialog-No" style="float: left;" />
+						<p:commandButton value="Kyllä" type="button"
+							styleClass="ui-confirmdialog-Yes"
+							actionListener="#{superuserBean.addSuperuser}"
+							style="float: right;" />
+					</p:dialog>
+				</h:form>
+				<h3>Julkiset kategoriaryhmät</h3>
+				<h:form>
+					<p:panelMenu
+						style="width: 80%; max-width: 400px; min-width: 250px; font-size: 1em; font-size: 1em; overflow: hidden; white-space: no-wrap">
+						<p:submenu label="Julkiset kategoriaryhmät" expanded="false">
+							<p:submenu label="Opettajan toiminnot" expanded="false">
+								<p:menuitem value="Järjestelyt" style="color: black;" />
+								<p:menuitem value="Tehtävän selitys" style="color: black;" />
+								<p:menuitem value="Ohjaus" style="color: black;" />
+								<p:menuitem value="Palautteen anto" style="color: black;" />
+								<p:menuitem value="Tarkkailu" style="color: black;" />
+								<p:menuitem value="Muu toiminta" style="color: black;" />
+							</p:submenu>
+							<p:menuitem value="Uusi kategoriaryhmä..."
+								icon="ui-icon-plusthick" style="color: black;" />
+						</p:submenu>
+					</p:panelMenu>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

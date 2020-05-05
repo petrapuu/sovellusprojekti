@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+
+		<ui:define name="pageTitle">#{msg.obs_title}</ui:define>
+
+		<ui:define name="mainpage">
+			<script type="text/javascript">
+                    function getMessages() {
+                        return {
+                            dialogErrorTitle: "#{msg.dialogErrorTitle}",
+                            countAbbreviation: "#{msg.countAbbreviation}",
+                            obs_errorCouldntSendStart: "#{msg.obs_errorCouldntSendStart}",
+                            obs_errorCouldntSendData: "#{msg.obs_errorCouldntSendData}",
+                            obs_errorKeepAliveFailed: "#{msg.obs_errorKeepAliveFailed}"
+                        };
+                    }
+                    function getCategoryTypes() {
+                        return Object.freeze({
+                            TIMED: 0,
+                            COUNTED: 1
+                        });
+                    }
+                    function getCategorySets() {
+                        return [
+                        <ui:repeat value="#{observationBean.categorySetsInUse}" var="categorySet">
+                            {name: "#{categorySet.name}", categories: [
+                            <ui:repeat value="#{categorySet.categories}" var="category">
+                                { name: "#{category.name}", type: #{category.getTypeAsInt()}, id: #{category.tag} },
+                            </ui:repeat>
+                            ]},
+                        </ui:repeat>
+                        ];
+                        
+                    }
+                </script>
+
+			<h:outputStylesheet library="css" name="observer.css" />
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputScript library="js" name="observer.js" />
+
+			<p:growl id="growl" widgetVar="growlWdgt" showDetail="true"
+				severity="error" />
+
+			<p:confirmDialog global="true" style="font-size: 1.1rem">
+				<p:commandButton value="#{msg.dialogConfirmYes}" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="#{msg.dialogConfirmNo}" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+			<div id="content" class="no-text-select">
+				<div id="total-time"></div>
+				<div id="controls">
+					<div id="start" class="control-button">
+						<span class="fa fa-play"></span> #{msg.obs_start}
+					</div>
+					<div id="continue" class="control-button">
+						<span class="fa fa-play"></span> #{msg.obs_continue}
+					</div>
+					<div id="pause" class="control-button">
+						<span class="fa fa-pause"></span> #{msg.obs_pause}
+					</div>
+					<div id="stop-disabled" class="control-button disabled">
+						<span class="fa fa-stop"></span> #{msg.obs_stop}
+					</div>
+					<p:commandLink id="stop" class="control-button"
+						onclick="stopObservation();">
+						<span class="fa fa-stop"></span> #{msg.obs_stop}
+                            <!--<p:confirm header="#{msg.dialogConfirmTitle}" message="#{msg.obs_confirmStopObservation}" icon="ui-icon-alert"/>-->
+					</p:commandLink>
+				</div>
+				<div id="category-list"></div>
+			</div>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

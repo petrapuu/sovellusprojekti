@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<body>
+	<ui:composition>
+		<h:form>
+			<p:menubar styleClass="naviHeader" autoDisplay="false">
+				<f:facet name="options">
+					<h:outputLink value="/index.xhtml">
+						<h:outputText value="Moveatis" styleClass="facetLeft" />
+					</h:outputLink>
+				</f:facet>
+
+				<p:submenu icon="fa fa-user"
+					label="#{sessionBean.loggedIdentifiedUser.givenName}"
+					rendered="#{sessionBean.isIdentifiedUser()}">
+					<p:menuitem value="#{msg.head_controlPage}" icon="fa fa-sitemap"
+						url="/app/control/index.xhtml" />
+					<p:menuitem value="#{msg.head_logout}" icon="fa fa-sign-out"
+						actionListener="#{logoutBean.logOut}" />
+				</p:submenu>
+
+				<p:submenu icon="fa fa-cog">
+					<p:menuitem value="#{msg.head_info}" icon="fa fa-info"
+						url="/info/index.xhtml" />
+					<p:menuitem value="#{userManagedBean.optionLanguageString}"
+						icon="fa fa-flag-o"
+						actionListener="#{userManagedBean.changeLocale}" ajax="false" />
+					<p:menuitem value="#{msg.head_resetObs}"
+						rendered="#{sessionBean.isResetObsAvailable()}"
+						icon="fa fa-eraser" url="/app/observer/index.xhtml" />
+					<p:menuitem value="#{msg.head_backToCatEd}"
+						rendered="#{sessionBean.isBackToCatEdAvailable()}"
+						icon="fa fa-edit" url="/app/categoryselection/index.xhtml" />
+					<p:menuitem value="#{msg.head_toFrontPage}"
+						rendered="#{sessionBean.isToFrontPageAvailable()}"
+						icon="fa fa-home" url="/index.xhtml" />
+				</p:submenu>
+			</p:menubar>
+		</h:form>
+	</ui:composition>
+</body>
+</html>

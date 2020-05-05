@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>Ei mitään nähtävää</title>
+	</h:head>
+	<h:body>
+		<h:panelGroup layout="block" id="testing-JYU" rendered="#{develJYULoginBean.isLocalhost}">
+			<p>
+				Näyttää, että sivua käytetään localhostista, jossa JYU-tunnistautuminen ei ole käytössä,
+				joten tämä sivua tarjoaa mockUp -tyylisen vaihtoehdon kehitystyötä varten.
+			</p>
+			<p>
+				Syötä tunnukset käsin, siinä muodossa kuin ne tulisivat JYU-tunnistuspalvelulta. 
+				<h:form>
+					<p>
+						<p:inputText placeholder="sammarju@jyu.fi" value="#{develJYULoginBean.username}"/>
+					</p>
+					<p>
+						<p:inputText placeholder="Sami Kallio" value="#{develJYULoginBean.givenName}"/>
+					</p>
+					<p>
+						<p:inputText placeholder="affiliate;student" value="#{develJYULoginBean.affiliation}"/>
+					</p>
+					<p>
+						<h:panelGroup layout="block" id="develOhje">
+							Valitse Kirjaudu, jos testaat normaalia käyttöä. Jos testaat
+							sovelluksen rekisteröintiä, valitse joko tavallinen Rekisteröidy 
+							tai pääkäyttäjän Rekisteröidy.
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:commandButton value="Kirjaudu" action="#{develJYULoginBean.doLogin}"/>
+						</h:panelGroup>
+						<h:panelGroup>
+							TAI
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:commandButton value="Rekisteröidy (tavallinen)" action="#{develJYULoginBean.doRegistration}"/>
+						</h:panelGroup>
+						<h:panelGroup>
+							TAI
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:commandButton value="Rekisteröidy (pääkäyttäjä)" action="#{develJYULoginBean.doSuperUserRegistration}"/>
+						</h:panelGroup>
+					</p>
+				</h:form>
+			</p>
+	</h:panelGroup>
+	</h:body>
+</html>

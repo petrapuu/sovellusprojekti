@@ -1,0 +1,59 @@
+# Gitignore in purpose of pushing just code changes to repository
+# Sami Kallio 13.2.2016 sami.m.j.kallio@student.jyu.fi
+
+# Folders for Docker
+db/
+docker/
+mails/
+
+# Folder for Openshift
+deployments/
+
+# Java class files
+*.class
+*.war
+lib/
+
+# Scripts
+*.sh
+
+# Netbeans files
+nbproject/private
+build/
+nbbuild/
+dist/
+ndist/
+nbactions.xml
+nbactions-moveatis.xml
+nbactions-Moveatis.xml
+/faces-config.Navdata
+faces-config.Navdata
+nb-configuration.xml
+.nb-gradle/
+
+# Eclipse and vim files
+*.swp
+.directory
+.metadata/
+.project
+.settings/
+.classpath
+
+# Maven files and folders
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Lockfiles and such
+.LCK*
+
+# Directory for TeXDoclet and LaTeX outputs
+texdocs/
+bin/
+# Directory for class documentation
+docs/

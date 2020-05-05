@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="mainpage">
+			<div>
+				<nav> <h:form>
+					<h:panelGroup>
+						<div class="accessButtons" style="min-height: 200px;">
+							<p:commandButton value="#{msg.selection_analyze}"
+								style="width: 200px; margin-top: 15px" class="coloredButton"
+								action="#{controlBean.redirectAnalyze}" />
+							<p:commandButton value="#{msg.selection_observation}"
+								ajax="false" style="width: 200px; margin-top: 15px"
+								class="coloredButton"
+								action="#{controlBean.redirectObservation}" />
+						</div>
+					</h:panelGroup>
+				</h:form> </nav>
+				<h:panelGroup styleClass="welcomeContent">
+					<h:outputText escape="false" value="#{msg.selection_introduction}" />
+					<h:outputLink value="#{msg.fp_infoLink}">
+						<h:outputText value="#{msg.fp_infoLinkText}"
+							style="text-decoration: underline" />
+					</h:outputLink>
+				</h:panelGroup>
+				<div id="picture2">
+					<p:graphicImage library="images" name="valintasivu.png" />
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

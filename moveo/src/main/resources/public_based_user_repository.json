@@ -1,0 +1,15 @@
+{
+	"name": "Repository-for-public-users",
+	"workspaces": {
+		"default": "default",
+		"allowCreation": false
+	},
+	"storage": {
+		"cacheConfiguration": "infinispan-configuration.xml",
+		"cacheName": "public-user-repository",
+		"binaryStorage": {
+			"type": "file",
+			"directory": "target/binaries/publicuser"
+		}
+	}
+}

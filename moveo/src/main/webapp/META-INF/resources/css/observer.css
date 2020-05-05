@@ -1,0 +1,267 @@
+/*
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* 
+	last modified: 22.5.2019 by Petra Puumala
+	Author     : Ilari Paananen
+*/
+
+#naviHead, #footer {
+	font-size: 1em;
+}
+
+#mainPage {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	clear: both;
+}
+
+#growl_container {
+	font-size: 1.125em;
+}
+
+#content {
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+#total-time {
+	margin: 0;
+	padding: 0;
+	cursor: default;
+}
+
+#controls {
+	white-space: nowrap;
+}
+
+.control-button {
+	display: inline-block;
+	width: 5em;
+	margin: 0 0.2em;
+	padding: 0.2em 0;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+}
+
+.no-text-select {
+	/* Disable text selection.
+	   Source: http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
+	-webkit-touch-callout: none;
+	/* iOS Safari */
+	-webkit-user-select: none;
+	/* Chrome/Safari/Opera */
+	-khtml-user-select: none;
+	/* Konqueror */
+	-moz-user-select: none;
+	/* Firefox */
+	-ms-user-select: none;
+	/* IE/Edge */
+	user-select: none;
+	/* non-prefixed version, currently
+		not supported by any browser */
+}
+
+#category-list {
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.category-set {
+	color: white;
+	max-width: 100%;
+	list-style-type: none;
+	background-color: rgba(85, 102, 119, 0.1);
+}
+
+.category-item {
+	max-width: 100%;
+	padding: 0;
+	position: relative;
+	text-align: left;
+	white-space: nowrap;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+}
+
+.category-item:last-child {
+	margin: 0;
+}
+
+.category-item.down {
+	background: #AF2A01;
+}
+
+.category-name {
+	max-width: 90%;
+	margin: 0 0.3em;
+	padding: 0;
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	top: 15%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#stop {
+	color: white;
+}
+
+.category-value {
+	margin: 0 0 0 0.3em;
+	padding: 0 0.15em;
+	float: right;
+	position: relative;
+	z-index: 1;
+	background-color: #007096;
+}
+
+.disabled {
+	color: #007096;
+	cursor: default;
+}
+
+.category-item.disabled>.category-value {
+	color: #005977;
+}
+
+/*
+	TODO: Use browser specific calc?
+	http://stackoverflow.com/a/14101451
+*/
+
+#total-time {
+	height: calc((100vh - 4.375em)* 0.12);
+	font-size: 9vh;
+}
+
+#controls {
+	height: calc((100vh - 4.375em)* 0.15);
+}
+
+.control-button {
+	border-radius: 1vh;
+	font-size: 6vh;
+}
+
+.category-set {
+	margin: 0 0 1.5vh 0;
+	padding: 1.5vh;
+	border-radius: 1vh;
+}
+
+.category-item {
+	height: calc((100vh - 4.375em)* 0.73* 0.127);
+	margin: 0;
+	margin-bottom: 1vh;
+	border-radius: 1vh;
+}
+
+.category-name {
+	font-size: 5vh;
+}
+
+.category-value {
+	font-size: 4vh;
+	border-radius: 1vh;
+}
+
+@media screen and (min-height: 480px) {
+	#total-time {
+		font-size: calc(30em * 0.09);
+	}
+	#controls {
+		height: calc((30em - 4.375em)* 0.15);
+	}
+	.control-button {
+		border-radius: calc(30em * 0.01);
+		font-size: calc(30em * 0.06);
+	}
+	.category-set {
+		margin: 0 0 calc(30em * 0.015) 0;
+		padding: calc(30em * 0.015);
+		border-radius: calc(30em * 0.01);
+	}
+	.category-item {
+		height: calc((30em - 4.375em)* 0.73* 0.127);
+		margin: 0;
+		margin-bottom: calc(30em * 0.01);
+		border-radius: calc(30em * 0.01);
+	}
+	.category-name {
+		font-size: calc(30em * 0.05);
+	}
+	.category-value {
+		font-size: calc(30em * 0.04);
+		border-radius: calc(30em * 0.01);
+	}
+}
+
+@media screen and (max-height: 15em) {
+	#total-time {
+		height: calc((15em - 4.375em)* 0.12);
+		font-size: calc(15em * 0.09);
+	}
+	#controls {
+		height: calc((15em - 4.375em)* 0.15);
+	}
+	.control-button {
+		border-radius: calc(15em * 0.01);
+		font-size: calc(15em * 0.06);
+	}
+	.category-set {
+		margin: 0 0 calc(15em * 0.015) 0;
+		padding: calc(15em * 0.015);
+		border-radius: calc(15em * 0.01);
+	}
+	.category-item {
+		height: calc((15em - 4.375em)* 0.73* 0.127);
+		margin: 0;
+		margin-bottom: calc(15em * 0.01);
+		border-radius: calc(15em * 0.01);
+	}
+	.category-name {
+		font-size: calc(15em * 0.05);
+	}
+	.category-value {
+		font-size: calc(15em * 0.04);
+		border-radius: calc(15em * 0.01);
+	}
+}

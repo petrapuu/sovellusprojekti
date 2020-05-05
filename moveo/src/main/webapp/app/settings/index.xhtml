@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="pageTitle">Asetukset</ui:define>
+		<ui:define name="mainpage">
+			<h:outputStylesheet library="css" name="settings.css" />
+			<nav>
+			<div>
+				<h:form>
+					<div class="accessButtons" style="min-height: 200px;">
+						<p:commandButton id="languageButton" value="Kieli"
+							icon="fa fa-chevron-down" style="width: 200px; margin-top: 15px"
+							class="coloredButton">
+							<p:menu overlay="true" trigger="languageButton" my="left top"
+								at="left bottom">
+								<p:menuitem value="suomi" class="coloredButton" />
+								<p:menuitem value="english" class="coloredButton" />
+							</p:menu>
+						</p:commandButton>
+						<p:commandButton value="Omat asetukset" type="button"
+							onclick="PF('dlg1').show();"
+							style="width: 200px; margin-top: 15px" class="coloredButton" />
+						<p:commandButton value="Luo tapahtuma" type="button"
+							onclick="PF('dlg2').show();"
+							style="width: 200px; margin-top: 15px" class="coloredButton" />
+						<p:commandButton value="Tee ny jotain" type="button"
+							onclick="PF('dlg3').show();"
+							style="width: 200px; margin-top: 15px" class="coloredButton" />
+					</div>
+					<p:dialog header="Omat asetukset" widgetVar="dlg1" minHeight="80"
+						position="center" class="coloredButton">
+						<p:inputText />
+						<p:button icon="ui-icon-check">
+						</p:button>
+					</p:dialog>
+					<p:dialog header="Luo observointitapahtumatapahtuma"
+						widgetVar="dlg2" minHeight="80" position="center"
+						class="coloredButton">
+						<h:outputText value="Tähän se tulee..." />
+					</p:dialog>
+					<p:dialog header="Tein jo jotain" widgetVar="dlg3" minHeight="80"
+						position="center" class="coloredButton">
+						<h:outputText value="Press anykey" />
+					</p:dialog>
+				</h:form>
+			</div>
+			</nav>
+			<div>
+				<h:panelGroup styleClass="welcomeContent">
+					<p>
+						<h:outputText value="Moveatis asetukset." />
+					</p>
+					<p>
+						<h:outputText
+							value="- Yleiset asetukset ja tapahtumakohtaiset asetukset." />
+					</p>
+				</h:panelGroup>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

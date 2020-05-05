@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+
+		<ui:define name="pageTitle">#{msg.cs_title}</ui:define>
+
+		<ui:define name="mainpage">
+			<h:outputStylesheet library="css" name="categoryselection.css" />
+
+			<div id="container">
+				<h:panelGroup layout="block"
+					rendered="#{empty categorySelectionBean.eventGroup}">
+					<h1>#{msg.cs_heading}</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{not empty categorySelectionBean.eventGroup}">
+					<h1>
+						<h:outputFormat value="#{msg.cs_headingEvent}">
+							<f:param value="#{categorySelectionBean.eventGroup.label}" />
+						</h:outputFormat>
+					</h1>
+				</h:panelGroup>
+
+				<h2>#{msg.cs_addedCategorySets}</h2>
+
+				<h:form id="form" onkeypress="return captureEnter(event);">
+					<p:growl id="growl" showDetail="true" />
+
+					<p:confirmDialog global="true">
+						<p:commandButton value="#{msg.dialogConfirmYes}" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="#{msg.dialogConfirmNo}" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+
+					<h:outputText value="#{msg.cs_noCategorySetsText}"
+						rendered="#{empty categorySelectionBean.categorySetsInUse}" />
+
+					<ui:repeat value="#{categorySelectionBean.categorySetsInUse}"
+						var="categorySet" varStatus="status">
+						<h:panelGroup id="category-set"
+							styleClass="category-set category-set-#{status.index}">
+
+							<p:commandLink
+								styleClass="fa fa-remove category-set-remove-button"
+								action="#{categorySelectionBean.removeCategorySet(categorySet)}"
+								update="@form">
+								<p:confirm header="#{msg.dialogConfirmTitle}"
+									message="#{msg.cs_confirmRemoveCategorySet}"
+									icon="ui-icon-alert" />
+							</p:commandLink>
+
+							<h2>#{categorySet.name}</h2>
+
+							<h:panelGroup layout="block" styleClass="no-categories-text"
+								rendered="#{empty categorySet.categories}">
+								<h:outputText value="#{msg.cs_noCategoriesText}" />
+							</h:panelGroup>
+
+							<ui:repeat value="#{categorySet.categories}" var="category">
+								<div class="category">
+									<p:selectBooleanButton value="#{category.typeAsBoolean}"
+										onLabel="#{msg.cs_countedCategory}"
+										offLabel="#{msg.cs_timedCategory}"
+										styleClass="category-type-button" />
+									<p:inputText value="#{category.name}" id="category-name-input"
+										styleClass="category-text" />
+									<p:watermark value="#{msg.cs_categoryName}"
+										for="category-name-input" />
+									<p:commandButton icon="fa fa-remove"
+										class="category-remove-button"
+										action="#{categorySet.remove(category)}" update="@form" />
+								</div>
+							</ui:repeat>
+
+							<p:commandButton value="#{msg.cs_newCategory}" icon="fa fa-plus"
+								styleClass="new-category-button"
+								action="#{categorySet.addEmpty}"
+								update="category-set :form:continue-button"
+								oncomplete="focusCategory('.category-set-#{status.index}');" />
+						</h:panelGroup>
+					</ui:repeat>
+					<br />
+					<br />
+					<br />
+
+					<h2>#{msg.cs_addCategorySets}</h2>
+					<h:panelGroup layout="block" styleClass="category-set-list">
+						<p:outputLabel for="new-category-set"
+							value="#{msg.cs_newCategorySet}:"
+							styleClass="category-set-list-label" />
+						<p:inputText value="#{categorySelectionBean.newCategorySetName}"
+							id="new-category-set" styleClass="category-set-list-input" />
+						<p:watermark value="#{msg.cs_categorySetName}"
+							for="new-category-set" />
+						<p:commandButton value="#{msg.cs_addCategorySet}"
+							style="vertical-align: middle"
+							action="#{categorySelectionBean.addNewCategorySet}"
+							update="@form" />
+					</h:panelGroup>
+
+					<h:panelGroup layout="block" styleClass="category-set-list"
+						rendered="#{not empty categorySelectionBean.privateCategorySets}">
+						<p:outputLabel for="private-category-sets"
+							value="#{msg.cs_privateCategorySets}:"
+							styleClass="category-set-list-label" />
+						<p:selectOneMenu id="private-category-sets"
+							value="#{categorySelectionBean.selectedPrivateCategorySet}"
+							styleClass="category-set-list-select">
+							<f:selectItems
+								value="#{categorySelectionBean.privateCategorySets}"
+								var="categorySet" itemLabel="#{categorySet.name}"
+								itemValue="#{categorySet.id}" />
+						</p:selectOneMenu>
+						<p:commandButton value="#{msg.cs_addCategorySet}"
+							style="vertical-align: middle"
+							action="#{categorySelectionBean.addPrivateCategorySet}"
+							update="@form" />
+					</h:panelGroup>
+
+					<h:panelGroup layout="block" styleClass="category-set-list-last"
+						rendered="#{not empty categorySelectionBean.defaultCategorySets}">
+						<p:outputLabel for="default-category-sets"
+							value="#{msg.cs_defaultCategorySets}:"
+							styleClass="category-set-list-label" />
+						<p:selectOneMenu id="default-category-sets"
+							value="#{categorySelectionBean.selectedDefaultCategorySet}"
+							styleClass="category-set-list-select">
+							<f:selectItems
+								value="#{categorySelectionBean.defaultCategorySets}"
+								var="categorySet" itemLabel="#{categorySet.name}"
+								itemValue="#{categorySet.id}" />
+						</p:selectOneMenu>
+						<p:commandButton value="#{msg.cs_addCategorySet}"
+							style="vertical-align: middle"
+							action="#{categorySelectionBean.addDefaultCategorySet}"
+							update="@form" />
+					</h:panelGroup>
+					<div id="continue-div">
+						<p:commandButton value="#{msg.cs_continueToObservation}"
+							id="continue-button"
+							disabled="#{categorySelectionBean.continueDisabled}"
+							action="#{categorySelectionBean.checkCategories}" update="@form" />
+					</div>
+
+				</h:form>
+			</div>
+
+			<h:outputScript>
+                    function focusCategory(category_set_class) {
+                        var category_set = $(category_set_class);
+                        if (category_set.length) {
+                            setTimeout(function () {
+                                category_set.find(".category-text").last().focus();
+                            }, 200);
+                        }
+                    }
+                    function captureEnter(event) {
+                        if (event.keyCode !== 13)
+                            return true;
+                        var focused = $(":focus");
+                        if (focused.hasClass("category-text")) {
+                            focused.blur();
+                            var button = focused.parent().next("button");
+                            if (button.length) button.click();
+                        } else if (focused.hasClass("category-set-list-input")) {
+                            var button = focused.next("button");
+                            if (button.length) button.click();
+                        }
+                        return false;
+                    }
+                </h:outputScript>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

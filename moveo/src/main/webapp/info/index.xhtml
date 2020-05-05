@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="title">#{msg.applicationTitle}</ui:define>
+		<ui:define name="mainpage">
+			<div>
+				<form>
+					<h:panelGroup styleClass="textContentArea">
+						<div>
+							<h:outputText escape="false" value="#{msg.inf_headerText}" />
+							<h:outputLink value="#whatIs">
+								<h:outputText value="-> #{msg.inf_whatIs}" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#userGuide">
+								<h:outputText value="-> #{msg.inf_userGuide}" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#team">
+								<h:outputText value="-> #{msg.inf_credits}" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#licenses">
+								<h:outputText value="-> #{msg.inf_licensedUnder}" />
+							</h:outputLink>
+							<p>
+								<br />
+							</p>
+						</div>
+						<div id="whatIs">
+							<h3>#{msg.inf_whatIs}</h3>
+							<h:outputText escape="false" value="#{msg.inf_whatIsText}" />
+							<p>
+								<br />
+							</p>
+						</div>
+						<div id="userGuide">
+							<h3>#{msg.inf_userGuide}</h3>
+							<h:outputText escape="false" value="#{msg.inf_userGuideText}" />
+							<p>
+								<br />
+							</p>
+						</div>
+						<div id="team">
+							<h3>#{msg.inf_credits}</h3>
+							<h:outputText escape="false" value="#{msg.inf_creditsText}" />
+							<p>
+								<br />
+							</p>
+						</div>
+						<div id="licenses">
+							<h3>#{msg.inf_licensedUnder}</h3>
+							<h:outputText value="#{msg.inf_licenseText}" />
+							<br />
+							<h:outputLink value="#{msg.inf_licenseUrl1}">
+								<h:outputText escape="false" value="#{msg.inf_licSource}" />
+							</h:outputLink>
+							<br />
+							<h:outputLink value="#{msg.inf_licenseUrl2}">
+								<h:outputText escape="false" value="#{msg.inf_licDoc}" />
+							</h:outputLink>
+							<br />
+							<h:outputText escape="false" value="#{msg.inf_drawings}" />
+						</div>
+					</h:panelGroup>
+				</form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

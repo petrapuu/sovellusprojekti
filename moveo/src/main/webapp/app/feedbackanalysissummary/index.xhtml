@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+
+		<ui:define name="pageTitle">#{msg.ana_title}</ui:define>
+
+		<ui:define name="mainpage">
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputScript library="js" name="feedbackanalysissummary.js" />
+			<h:outputStylesheet library="css" name="feedbackanalysissummary.css" />
+			<h:outputScript library="js" name="html2canvas.min.js" />
+			<h:outputScript>
+                function chartExtenderHideTicks() {
+                    this.cfg.grid = {
+                        background: 'transparent',
+                        drawGridlines: false,
+                        drawBorder: false,
+                        shadow: false
+                    };
+                    this.cfg.axes.xaxis.showTicks = false;
+                    this.cfg.axes.yaxis.showTicks = false;
+                    this.cfg.title.fontSize = 1;
+                    this.cfg.axes.yaxis.rendererOptions = {drawBaseline: false};
+                    this.cfg.axes.xaxis.rendererOptions = {drawBaseline: true};
+                }
+                function chartExtender() {
+                    this.cfg.axes.xaxis.showTicks = false;
+                    this.cfg.axes.xaxis.rendererOptions = {drawBaseline: true};
+                    this.cfg.title.fontSize = 1;
+                    this.cfg.grid = {
+                        background: 'transparent',
+                        drawGridlines: false,
+                        drawBorder: false,
+                        shadow: false
+                    };
+                }
+            </h:outputScript>
+			<f:event type="preRenderView"
+				listener="#{feedbackAnalysisSummaryManagedBean.showObservationSavedMessage()}" />
+			<h1>#{msg.ana_title} :
+				#{feedbackAnalysisSummaryManagedBean.feedbackAnalysis.analysisName}</h1>
+			<div id="container">
+				<div class="hiddenButtons">
+					<h:form>
+						<div class="back">
+							<p:commandButton value="#{msg.fbsum_back}"
+								action="backtorecordtable"  />
+						</div>
+						<div class="save">
+							<p:commandButton value="#{msg.dlg_saveAndSend}"
+								rendered="#{sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+
+							<p:commandButton value="#{msg.dlg_saveDialogHeaderAnalyzation}"
+								rendered="#{!sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+						</div>
+						<div class="end">
+							<p:commandButton value="#{msg.fbsum_end}" action="tofrontpage">
+								<p:confirm header="#{msg.repo_confirmheader}"
+									message="#{msg.fbsum_endconfirm}" />
+							</p:commandButton>
+						</div>
+					</h:form>
+				</div>
+
+				<h:form>
+					<div id="tableImage">
+						<table class="summaryTable">
+							<ui:repeat
+								value="#{feedbackAnalysisSummaryManagedBean.tableInformations}"
+								var="tableInformation">
+								<tr>
+									<td>
+										<table class="summaryTable">
+											<tr>
+												<th class="tableheader">#{tableInformation.feedbackAnalysisCategorySet}</th>
+												<th class="tableheader">#{msg.fbsum_count}</th>
+											</tr>
+											<ui:repeat var="cat" value="#{tableInformation.categories}"
+												varStatus="stat">
+												<tr>
+													<td style="width: 30%" class="cat">#{cat}</td>
+													<td class="count">#{tableInformation.counts.get(stat.index)}
+														(#{feedbackAnalysisSummaryManagedBean.getPercentageAsString(tableInformation.counts.get(stat.index))}
+														%)</td>
+												</tr>
+											</ui:repeat>
+										</table>
+									</td>
+								</tr>
+							</ui:repeat>
+
+						</table>
+					</div>
+					<p:commandButton value="#{msg.downloadImage}" ajax="false"
+						action="#{feedbackAnalysisSummaryManagedBean.downloadImage('table')}" />
+					<p:separator />
+				</h:form>
+
+
+				<h:form id="charts">
+
+					<div id="charts_div">
+						<div id="chartsHeader">
+							<h2>#{msg.fbsum_charts}</h2>
+						</div>
+						<span id="bar"><p:selectBooleanCheckbox
+								value="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+								id="barChart">#{msg.fbsum_barchart}
+			<p:ajax update="charts" />
+							</p:selectBooleanCheckbox></span> <br /> <span id="pie"> <p:selectBooleanCheckbox
+								value="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+								id="pieChart">#{msg.fbsum_piechart} 
+			<p:ajax update="charts" />
+							</p:selectBooleanCheckbox></span>
+					</div>
+					<h:panelGroup
+						rendered="#{feedbackAnalysisSummaryManagedBean.renderBarChart}"
+						layout="block" id="barModels">
+						<div id="bar_div">
+							<div id="barchartimage" style="">
+								<ui:repeat
+									value="#{feedbackAnalysisSummaryManagedBean.barModels}"
+									var="barModel" varStatus="myVarStatus">
+									<span id="barchart"> <p:chart class="chart" type="bar"
+											model="#{barModel}"
+											style="margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em"
+											widgetVar="barchart#{myVarStatus.index}" />
+									</span>
+								</ui:repeat>
+							</div>
+						</div>
+						<p>
+							<p:commandButton value="#{msg.downloadImage}" ajax="false"
+								action="#{feedbackAnalysisSummaryManagedBean.downloadImage('bar')}" />
+							<p:separator />
+						</p>
+					</h:panelGroup>
+
+					<div id="pie_div">
+						<h:panelGroup
+							rendered="#{feedbackAnalysisSummaryManagedBean.renderPieChart}"
+							id="pieModels">
+							<div id="piechartimage">
+								<ui:repeat
+									value="#{feedbackAnalysisSummaryManagedBean.pieModels}"
+									var="pieModel" varStatus="myVarStatus">
+									<span id="piechart"> <p:chart class="chart" type="pie"
+											model="#{pieModel}"
+											style="width:300px; height:300px; margin-bottom: #{1.5*feedbackAnalysisSummaryManagedBean.countMaxCategories()}em"
+											widgetVar="piechart#{myVarStatus.index}" />
+									</span>
+								</ui:repeat>
+							</div>
+							<p:commandButton value="#{msg.downloadImage}" ajax="false"
+								action="#{feedbackAnalysisSummaryManagedBean.downloadImage('pie')}" />
+							<p:separator />
+						</h:panelGroup>
+					</div>
+				</h:form>
+
+
+				<div class="hiddenButtons">
+					<h:form>
+						<div class="back">
+							<p:commandButton value="#{msg.fbsum_back}"
+								action="backtorecordtable"/>
+						</div>
+						<div class="save">
+							<p:commandButton value="#{msg.dlg_saveAndSend}"
+								rendered="#{sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+
+							<p:commandButton value="#{msg.dlg_saveDialogHeaderAnalyzation}"
+								rendered="#{!sessionBean.identifiedUser}"
+								styleClass="save-button" onclick="PF('dlgSave').show();"
+								process="@this">
+								<p:ajax update=":saveForm" resetValues="true" />
+							</p:commandButton>
+						</div>
+						<div class="end">
+							<p:commandButton value="#{msg.fbsum_end}" action="tofrontpage">
+								<p:confirm header="#{msg.repo_confirmheader}"
+									message="#{msg.fbsum_endconfirm}" />
+							</p:commandButton>
+						</div>
+					</h:form>
+				</div>
+
+				<p:dialog header="#{msg.dlg_saveDialogHeaderAnalyzation}"
+					id="saveDialog" widgetVar="dlgSave" position="top"
+					resizable="false" responsive="true" fitViewport="true"
+					visible="#{facesContext.validationFailed}"
+					styleClass="coloredDialog">
+					<h:form id="saveForm" styleClass="dialog-form ui-fluid">
+						<p:selectManyCheckbox id="basic"
+							rendered="#{sessionBean.identifiedUser}" columns="1"
+							required="true" requiredMessage="" layout="grid"
+							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
+							<p:ajax process="@this" update="@this input-email" />
+							<f:selectItem itemLabel="#{msg.dlg_saveOption}" itemValue="save"
+								itemDisabled="#{!sessionBean.identifiedUser}" />
+							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
+								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
+							<f:selectItem itemLabel="#{msg.dlg_mailOption}" itemValue="mail"
+								itemDisabled="#{!sessionBean.identifiedUser}" />
+						</p:selectManyCheckbox>
+						<p:selectManyCheckbox id="anonymityUserBoxes"
+							rendered="#{!sessionBean.identifiedUser}" columns="1"
+							required="true" requiredMessage="" layout="grid"
+							value="#{feedbackAnalysisSummaryManagedBean.selectedSaveOperations}">
+							<p:ajax process="@this" update="@this" />
+							<f:selectItem itemLabel="#{msg.dlg_downloadOption}"
+								itemValue="download" itemDisabled="#{!sessionBean.loggedIn}" />
+						</p:selectManyCheckbox>
+						<h:outputLabel for="input-name"
+							value="#{msg.asum_analyzationName}">
+							<h:outputText rendered="#{sessionBean.identifiedUser}"
+								value=" (#{msg.dlg_defaultFileName})" />
+						</h:outputLabel>
+						<p:message id="nameError" for="input-name" />
+						<p:inputText id="input-name" required="true"
+							requiredMessage="#{msg.dlg_notEmpty}"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.analysisName}"
+							validator="#{validationBean.validateShortString}">
+
+							<f:ajax event="keyup" execute="@this" render="nameError" />
+						</p:inputText>
+
+						<h:outputLabel for="input-description"
+							value="#{msg.asum_analyzationDescription}" />
+						<p:message id="descriptionError" for="input-description" />
+						<p:inputTextarea id="input-description"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.description}"
+							validator="#{validationBean.validateLongString}" rows="3"
+							cols="16" autoResize="true">
+							<f:ajax event="keyup" execute="@this" render="descriptionError" />
+						</p:inputTextarea>
+
+						<h:outputLabel for="input-target"
+							value="#{msg.asum_analyzationTarget}" />
+						<p:message id="targetError" for="input-target" />
+						<p:inputText id="input-target"
+							value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.targetOfAnalysis}"
+							validator="#{validationBean.validateShortString}">
+							<f:ajax event="keyup" execute="@this" render="targetError" />
+						</p:inputText>
+
+
+						<p:outputPanel rendered="#{sessionBean.identifiedUser}">
+							<h:outputLabel for="input-email" value="#{msg.dlg_giveEmail}" />
+							<p:message id="emailError" for="input-email" />
+							<p:inputText id="input-email"
+								required="#{feedbackAnalysisSummaryManagedBean.isSelected('mail')}"
+								requiredMessage="#{msg.dlg_notEmpty}"
+								disabled="#{!feedbackAnalysisSummaryManagedBean.isSelected('mail')}"
+								value="#{feedbackAnalysisSummaryManagedBean.emailAddress}">
+								<f:validator validatorId="emailValidator" />
+								<f:ajax event="blur" execute="@this" render="emailError" />
+							</p:inputText>
+						</p:outputPanel>
+						<p:commandButton value="#{msg.dlg_save}" icon="ui-icon-check"
+							ajax="false" action="#{feedbackAnalysisSummaryManagedBean.save}"
+							validateClient="true">
+						</p:commandButton>
+						<p:commandButton value="#{msg.dlg_cancel}" icon="ui-icon-close"
+							onclick="PF('dlgSave').hide();" />
+
+					</h:form>
+				</p:dialog>
+
+				<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+					showDetail="true" sticky="false" escape="false" />
+
+			</div>
+			<p:confirmDialog global="true">
+				<p:commandButton styleClass="ui-confirmdialog-yes"
+					value="#{msg.repo_yes}" type="button" />
+				<p:commandButton styleClass="ui-confirmdialog-no"
+					value="#{msg.repo_no}" type="button" />
+			</p:confirmDialog>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

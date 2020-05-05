@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:body>
+	<ui:composition template="/WEB-INF/template.xhtml">
+		<ui:define name="pageTitle" />
+		<ui:define name="mainpage">
+			<h:outputScript library="primefaces" name="jquery/jquery.js" />
+			<h:outputScript library="js" name="locales.js" />
+			<h:outputScript library="js" name="html2canvas.min.js" />
+			<h:outputStylesheet library="css" name="analysisrecordtable.css" />
+			<h:outputScript library="js" name="analysisrecordtable.js" />
+			<h:outputScript library="js" name="table2csv.js" />
+			<h1>#{msg.repo_title}</h1>
+			<div id="container">
+				<div id="content">
+					<ui:debug hotkey="x" />
+				</div>
+				<div id="continueToSummary">
+					<p:commandButton value="#{msg.repo_continue}"
+						action="#{feedbackAnalysisManagedBean.toSummary()}"
+						rendered="#{!feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
+					</p:commandButton>
+					<p:commandButton value="#{msg.repo_continue}"
+						action="#{feedbackAnalysisManagedBean.toSummary()}"
+						rendered="#{feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
+						<p:confirm header="#{msg.repo_question}"
+							message="#{msg.repo_warning}" icon="ui-icon-alert" />
+					</p:commandButton>
+				</div>
+				<div id="dataTableImage" >
+					<p:dataTable id="entries"
+						value="#{feedbackAnalysisManagedBean.feedbackAnalysisEntity.records}"
+						var="record" sortBy="#{record.orderNumber}"
+						rowStyleClass="datatable" resizableColumns="true"
+						liveResize="false" styleClass="entries_dt" reflow="true" tableStyle="width:auto">
+						<p:column headerText="#{msg.repo_nro}" >
+							<h:outputText class="tContent" value="#{record.orderNumber}" />
+						</p:column>
+						<p:column headerText="#{msg.repo_feedback}" id="givenFeedback">
+							<h:outputText class="tContent" value="#{record.comment}" />
+						</p:column>
+						<c:forEach
+							items="#{feedbackAnalysisManagedBean.feedbackAnalysisCategorySetsInUse.toArray()}"
+							var="categorySet">
+							<p:column id="categories" headerText="#{categorySet.label}">
+								<h:outputText class="tContent"
+									value="#{analysisRecordTable.getSelectedCategorysName(record.getSelectedCategories(), categorySet)}" />
+							</p:column>
+						</c:forEach>
+						<p:column id="time" 
+							rendered="#{feedbackAnalysisManagedBean.isTimerEnabled}"
+							headerText="#{msg.repo_timestamp}">
+							<h:outputText
+								value="#{feedbackAnalysisManagedBean.getLongAsTimeStamp(record.startTime)}"
+								class="tContent" />
+						</p:column>
+						<p:column headerText="#{msg.repo_edit}" exportable="false"
+							data-html2canvas-ignore="true" >
+							<span class="tContent"><p:commandButton id="editButton"
+									icon="fa fa-pencil"
+									action="#{analysisRecordTable.edit(record.orderNumber)}" /></span>
+						</p:column>
+						<p:column exportable="false" headerText="#{msg.repo_delete}"
+							data-html2canvas-ignore="true" >
+							<span class="tContent"><p:commandButton
+									action="#{feedbackAnalysisManagedBean.delete(record.orderNumber)}"
+									id="deleteButton" update="entries reportButtons"
+									icon="fa fa-trash" oncomplete="sendImageAndCSV()">
+									<p:confirm header="#{msg.repo_confirmheader}"
+										message="#{analysisRecordTable.getConfirm(record.orderNumber)}" />
+								</p:commandButton></span>
+						</p:column>
+					</p:dataTable>
+				</div>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+				</p:confirmDialog>
+				<h:panelGroup id="reportButtons">
+					<h:form id="buttons">
+						<div id="downloadImage">
+							<p:commandButton value="#{msg.downloadImage}" ajax="false"
+								action="#{analysisRecordTable.downloadImage()}"></p:commandButton>
+						</div>
+					</h:form>
+					<div id="continueToSummary">
+						<p:commandButton value="#{msg.repo_continue}"
+							action="#{feedbackAnalysisManagedBean.toSummary()}"
+							onclick="sendImageAndCSV()"
+							rendered="#{!feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
+						</p:commandButton>
+						<p:commandButton value="#{msg.repo_continue}"
+							action="#{feedbackAnalysisManagedBean.toSummary()}"
+							rendered="#{feedbackAnalysisManagedBean.containsUnclassifiedRecords()}">
+							<p:confirm header="#{msg.repo_question}"
+								message="#{msg.repo_warning}" icon="ui-icon-alert" />
+						</p:commandButton>
+					</div>
+				</h:panelGroup>
+			</div>
+			<p:growl id="growl" widgetVar="growlWdgt" severity="info"
+				showDetail="true" sticky="true" escape="false" />
+			<p:confirmDialog global="true">
+				<p:commandButton styleClass="ui-confirmdialog-yes"
+					value="#{msg.repo_yes}" type="button" />
+				<p:commandButton styleClass="ui-confirmdialog-no"
+					value="#{msg.repo_no}" type="button" />
+			</p:confirmDialog>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

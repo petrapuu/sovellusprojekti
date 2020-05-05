@@ -1,0 +1,318 @@
+/*
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* 
+		last modified: 25.5.2019 by Petra Puumala
+		Author     : Ilari Paananen
+*/
+
+body {
+	text-align: center;
+	/* Disable text selection.
+				Source: http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
+	-webkit-touch-callout: none;
+	/* iOS Safari */
+	-webkit-user-select: none;
+	/* Chrome/Safari/Opera */
+	-khtml-user-select: none;
+	/* Konqueror */
+	-moz-user-select: none;
+	/* Firefox */
+	-ms-user-select: none;
+	/* IE/Edge */
+	user-select: none;
+	/* non-prefixed version, currently
+	 not supported by any browser */
+}
+
+#mainPage {
+	width: 100%;
+	margin: auto;
+	padding: 0;
+	display: inline-block;
+	text-align: center;
+}
+
+#index {
+	padding-top: 0.625em;
+	padding-bottom: 0.625em;
+}
+
+#naviHead, #footer {
+	font-size: 1em;
+}
+
+#texts {
+	display: inline-block;
+	width: 25%;
+	hyphens: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-top: 0.5em;
+	vertical-align: top;
+	font-size: 1.1em;
+}
+
+#content {
+	width: 60%;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+#content .ui-state-active {
+	background: #AF2A01;
+}
+
+#textArea {
+	text-align: center;
+}
+
+#textArea textarea {
+	max-width: 100%;
+	min-width: 98%;
+	border-radius: 0.5em;
+	margin-bottom: 0.1em;
+}
+
+#categoryContent {
+	max-width: 100%;
+	list-style-type: none;
+	background: rgba(85, 102, 119, 0.1);
+	padding: 0.5em;
+	border-radius: 0.5em;
+	position: relative;
+}
+
+#basicContent {
+	width: 60%;
+	margin: 0;
+	padding: 0 0 1em 0;
+	display: inline-block;
+}
+
+#categoryContent {
+	margin-bottom: 0.625em;
+	text-align: left;
+	padding-left: 2em;
+}
+
+/* timer and timer buttons */
+#timer_div {
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+#timer_div .ui-button.ui-state-active {
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+}
+
+#timer_div .ui-icon {
+	border-radius: 0;
+	font-size: 1em;
+}
+
+#timer_span {
+	font-size: 2em;
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+}
+
+#pause_span {
+	padding-left: 0.8em;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+#timestamp_div {
+	max-width: 100%;
+	list-style-type: none;
+	background: rgba(85, 102, 119, 0.1);
+	padding: 0.5em;
+	border-radius: 0.5em;
+	position: relative;
+	text-align: center;
+	margin-bottom: 0.5em;
+}
+
+#timestamp_span {
+	padding-left: 2em;
+	font-weight: bold;
+	text-decoration:underline;
+}
+
+/* page number */
+
+#pageNumber {
+	display: inline-block;
+	width: 3em;
+}
+
+/* buttons */
+
+#content button {
+	padding: 0.5em;
+	border: 0;
+	font-size: 1em;
+	display: inline-block;
+	min-width: 2.5em;
+	max-width: 5em;
+}
+
+#buttons {
+	display: inline-block;
+	margin-right: 0;
+	margin-left: auto;
+	width: 74%;
+}
+
+.ui-button {
+	display: inline-block;
+	border: none;
+	text-shadow: none;
+	margin: 0.2em 0.2em;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+	max-width: 12em;
+}
+
+.ui-button-text {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.ui-button.ui-state-active {
+	background: #AF2A01;
+}
+
+/* timeslider */
+#timeSlider\:timeOutput {
+	color: white;
+	margin: 1em;
+}
+
+#timeSlider > div {
+	margin: 0.5em 0;
+}
+
+
+/* responsivity */
+
+@media screen and (max-width: 1050px) {
+	#texts {
+		display: inline-block;
+		width: 100%;
+		hyphens: auto;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		padding-top: 0.5em;
+		vertical-align: top;
+	}
+	#buttons {
+		display: inline-block;
+		margin-right: 0;
+		margin-left: auto;
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#index {
+		width: 100%;
+		display: flex;
+		flex-flow: row wrap;
+		overflow: hidden;
+	}
+	#pageNumber {
+		display: block;
+		margin: auto;
+		order: 1;
+		width: 100%;
+	}
+	.arrows {
+		order: 2;
+		margin: auto;
+	}
+	#texts {
+		display: inline-block;
+		width: 100%;
+		hyphens: auto;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		padding-top: 0.5em;
+		vertical-align: top;
+	}
+	#buttons {
+		display: inline-block;
+		margin-right: 0;
+		margin-left: auto;
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.arrows .ui-button {
+		margin: 0;
+		width: 2.6em;
+	}
+	#timestamp_span {
+		white-space: nowrap;
+		padding-left: 0;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.ui-button {
+		display: inline-block;
+		border: none;
+		text-shadow: none;
+		margin: 0.2em 0.2em;
+		cursor: pointer;
+		color: white;
+		box-shadow: none;
+		max-width: 8em;
+	}
+	#categoryContent {
+		padding-left: 0.5em;
+	}
+	#basicControls .ui-button {
+		max-width: 11em;
+	}
+}

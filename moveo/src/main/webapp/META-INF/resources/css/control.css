@@ -1,0 +1,740 @@
+/*
+ * Copyright (c) 2016, Jarmo Juujarvi, Sami Kallio, Kai Korhonen, Juha Moisio, Ilari Paananen 
+ * Copyright (c) 2019, Karoliina Lappalainen, Tuomas Moisio, Visa Nykanen, Petra Puumala 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *
+ *     3. Neither the name of the copyright holder nor the names of its 
+ *       contributors may be used to endorse or promote products derived
+ *       from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* 
+	last modified: 22.5.2019 by Petra Puumala
+	Author     : Juha Moisio
+*/
+
+#mainPage {
+	padding-left: 1em;
+	max-width: 60em;
+	margin: 0 auto;
+	margin-bottom: 3em;
+}
+
+#mainPage>form, #mainPage .other-observations-fieldset {
+	max-width: 50em;
+	margin: 1em 0;
+}
+
+/* control page table styling */
+
+#mainPage a.edit-key {
+	color: gold;
+	text-shadow: 0.063em 0.063em 0.063em #333;
+}
+
+.ui-datatable-tablewrapper {
+	overflow: hidden;
+}
+
+.key-dialog {
+	max-width: 12em;
+}
+
+a.new-key {
+	color: grey;
+}
+
+.column-group-keys, .row-editor, .row-toggler, .ui-widget.fa-trash {
+	font-size: 1.6em;
+}
+
+.row-toggler {
+	font-family: FontAwesome;
+	width: 1em;
+}
+
+.row-editor, .column-remove, .column-group-keys {
+	width: 1em;
+	text-align: center;
+}
+
+.ui-datatable thead th {
+	text-align: left;
+	font-size: 1em;
+	background: #D0D3D7;
+	border: 0;
+	box-shadow: none;
+}
+
+.ui-datatable thead th:not(.column-remove) {
+	border-right: 0.05em solid black;	
+}
+
+.ui-datatable tbody td:not(.column-remove) {
+	border: 0;
+	border-right: 0.05em solid black;	
+}
+
+.ui-datatable tbody .column-remove {
+	border: 0;
+}
+
+.ui-datatable .ui-row-editor span {
+	float: none;
+}
+
+.column-name, .new-eventgroup-form .input-name {
+	width: 12em;
+}
+
+.column-name input, .column-name textarea {
+	width: 100%;
+}
+
+.column-name textarea {
+	font-size: 0.8em;
+}
+
+.new-eventgroup-form {
+	display: inline;
+}
+
+.new-eventgroup-form .input-name {
+	margin-right: .5em;
+}
+
+.column-group-keys .ui-icon, .row-editor .ui-icon, .fa.ui-icon {
+	background: none;
+	text-indent: 0;
+	width: auto;
+	height: auto;
+	border-radius: 0;
+}
+
+.column-remove>.ui-commandlink {
+	display: none;
+}
+
+.ui-row-editing .column-remove>.ui-commandlink {
+	display: block;
+}
+
+.ui-datatable-odd {
+	background: #D0D3D7;
+}
+
+.ui-datatable-even {
+	background: #EFEFEF;
+}
+
+.ui-datatable-data .ui-state-highlight {
+	background: #008AB9;
+}
+
+#eventGroupsForm .ui-datatable-data .ui-state-hover {
+	background: #008AB9;
+}
+
+.row-editor .ui-icon-pencil:before {
+	content: "\f040";
+}
+
+.row-editor .ui-icon-close:before {
+	content: "\f00d";
+}
+
+.row-editor .ui-icon-check:before {
+	content: "\f046";
+}
+
+.row-editor .ui-icon-check:before {
+	margin-right: .1em;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.row-editor .ui-icon-close:before {
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: -0.25em;
+}
+
+.row-editor .ui-icon-check:hover {
+	color: green;
+}
+
+.row-editor .ui-icon-close:hover, .ui-widget.fa-trash:hover {
+	color: red;
+}
+
+.list-categorysets {
+	padding: 0;
+	margin: 0;
+	display: inline-block;
+}
+
+.list-categorysets>li {
+	display: inline-block;
+	padding: .2em;
+	background: #2D363F;
+	border-radius: 0.313em;
+	margin: .2em;
+	border: 0.063em solid rgba(79, 79, 79, .4);
+	pointer-events: auto;
+	font-size: .9em;
+	box-shadow: 0.063em 0.063em 0.063em grey;
+}
+
+.list-categorysets>li:hover {
+	box-shadow: none;
+}
+
+.link-new-categoryset>span {
+	font-family: "Roboto", sans-serif;
+}
+
+.ui-datatable .link-categoryset {
+	color: white;
+	text-shadow: 0.063em 0.063em 0.063em #333;
+}
+
+.link-categoryset:hover {
+	text-shadow: 0.063em 0.063em 0.063em grey;
+}
+
+.ui-sortable-helper {
+	z-index: 2000;
+	font-size: 0.9em;
+	opacity: 0.4;
+}
+
+
+/* table's expanded row styling */
+
+.ui-expanded-row-content {
+	background: #D0D3D7;
+}
+
+.ui-datatable .ui-datalist-header {
+	background: #EFEFEF;
+	border: 0;
+	border-bottom: 0.063em solid #4f4f4f;
+}
+
+.ui-datalist-content {
+	background: #EFEFEF;
+	border: 0;
+}
+
+.ui-button {
+	border: none;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+}
+
+.ui-button.ui-state-active {
+	background: linear-gradient(0deg, #007096, #007AA3);
+}
+
+.row-toggler-mobile {
+	display: none;
+}
+
+.ui-growl {
+	z-index: 2000;
+}
+
+.categories-table {
+	margin-top: .5em;
+}
+
+/* observation categorysetform */
+
+#categorySetForm .ui-column-title {
+	font-size: .8em;
+	color: white;
+	text-shadow: none;
+}
+
+#categorySetForm .ui-state-highlight .ui-column-title {
+	color: white;
+}
+
+/* Didn't find out how to override element.style otherwise, so had to use important. Using exact selectors didn't work here */
+#categorySetForm .ui-icon-close {
+	display: none!important;
+}
+
+#categorySetForm th {
+	background: none;
+	border: 0;
+	border-bottom: 0.063em solid white;
+	border-right: 0em;
+}
+
+#categorySetForm tr {
+	background: #008AB9;
+	color: white;
+}
+
+#categorySetForm td {
+	border: 0em;
+}
+
+#categorySetForm .ui-state-highlight {
+	text-shadow: none;
+	background: #FCFCFC;
+	color: black;
+}
+
+#categorySetForm .ui-row-editing {
+	color: white;
+	text-shadow: none;
+	background: #008AB9;
+}
+
+#categorySetForm .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+}
+
+.observation-dialog .ui-state-hover {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+}
+
+.observation-dialog .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+}
+
+/* feedback analysis categorysetform */
+
+#feedbackAnalysisCategorySetForm th {
+	background: none;
+	color: white;
+	text-shadow: none;
+	border: 0;
+	border-bottom: 0.063em solid white;
+}
+
+#feedbackAnalysisCategorySetForm th {
+	background: none;
+	border: 0;
+	border-bottom: 0.063em solid white;
+	border-right: 0;
+}
+
+#feedbackAnalysisCategorySetForm tr {
+	background: #008AB9;
+	color: white;
+}
+
+#feedbackAnalysisCategorySetForm td {
+	border: 0;
+}
+
+
+#feedbackAnalysisCategorySetForm .ui-row-editing {
+	color: white;
+	text-shadow: none;
+	background: #008AB9;
+}
+
+#feedbackAnalysisCategorySetForm .ui-state-hover {
+	text-shadow: none;
+	box-shadow: none;
+}
+
+#feedbackAnalysisCategorySetForm .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+}
+
+
+/* Didn't find out how to override element.style otherwise, so had to use important. Using exact selectors didn't work here */
+#feedbackAnalysisCategorySetForm .ui-icon-close {
+	display: none !important;
+}
+
+.key-dialog .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+}
+
+#feedbackAnalysisCategorySetForm .categorySetCommandButtons {
+	text-align: right;
+}
+
+
+.ui-datatable-selectable:not(.ui-row-editing) .ui-cell-editor {
+	pointer-events: none;
+}
+
+.ui-datatable .ui-widget-content {
+	border: 0;
+}
+
+#eventGroupsForm > td {
+	border: 0;
+}
+
+.ui-cell-editor-input {
+	pointer-events: auto;
+}
+
+#eventGroupsForm .ui-datatable table {
+	table-layout: auto;
+}
+
+#commandButtons>button:not(:last-of-type) {
+	font-size: 100%;
+}
+
+.categories-table .ui-cell-editor-input>input {
+	display: inline-block;
+	max-width: 90%;
+	margin: 0.3em 1%;
+}
+
+#observationFormCommands {
+	font-size: .9em;
+}
+
+.ui-datalist a.ui-commandlink:link, .ui-datalist a.ui-commandlink:visited, .ui-datalist a.ui-commandlink:active, .ui-datalist a.ui-commandlink:hover {
+	color: #4f4f4f;
+}
+
+.ui-state-highlight a.ui-commandlink:link {
+	color: #FFFFFF
+}
+
+.ui-state-highlight .list-categorysets li {
+	background: #FFFFFF;
+}
+
+.ui-state-highlight .list-categorysets a.ui-commandlink:link {
+	color: #4f4f4f;
+	text-shadow: none;
+}
+
+.ui-selectonemenu, .ui-inputfield {
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.ui-selectonemenu {
+	padding-right: 0;
+}
+
+.ui-datatable-empty-message {
+	color: #4f4f4f;
+	border-color: transparent;
+	background: #EFEFEF;
+}
+
+.row-editor .ui-icon-close {
+	display: none;
+}
+
+.ui-selectonemenu {
+	width: 100%;
+}
+
+.column-categorytype {
+	width: 8em;
+}
+
+.other-observations-fieldset {
+	padding: 0;
+}
+
+.ui-fieldset {
+	background: none;
+}
+
+/* other observations and analyses forms */
+
+#otherObservationsForm th {
+	background: none;
+	border: 0;
+	border-right: 0;
+	border-bottom: 0.063em solid black;
+}
+
+#otherObservationsForm {
+	padding: 0.1em;
+	background: #D0D3D7;
+}
+
+#otherAnalysesForm {
+	padding: 0.1em;
+	background: #D0D3D7;
+}
+
+#otherObservationsForm td {
+	border: 0;
+}
+
+#otherAnalysesForm th {
+	background: none;
+	border: 0;
+	border-right: 0;
+	border-bottom: 0.063em solid black;
+}
+
+#otherAnalysesForm td {
+	border: 0;
+}
+
+
+#otherAnalysesAndObservations fieldset {
+	border: 0;
+}
+
+#otherAnalysesAndObservations .ui-fieldset-legend {
+	font-size: .8em;
+	border: 0;
+	text-shadow: none;
+	background-color: #008AB9;
+	background: linear-gradient(0deg, #008AB9, #10A1D1);
+	cursor: pointer;
+	color: white;
+	box-shadow: none;
+}
+
+#eventGroupsForm .ui-datalist-header, #otherObservationsForm thead {
+	font-size: 0.9em;
+}
+
+#startObservationForm {
+	text-align: right;
+}
+
+/* analysis and observation details */
+
+#analysisDetail .ui-grid {
+	background: none;
+	color: white;
+	padding-bottom: 1em;
+}
+
+#analysisDetail .label {
+	width: 30%;
+}
+
+#analysisDetail .value {
+	width: auto;
+}
+
+#analysisDetail .value .ui-state-highlight {
+	background: none;
+	text-decoration: underline;
+}
+
+#analysisDetail .ui-inputfield {
+	width: 100%;
+}
+
+#observationDetail .ui-panelgrid-cell.label {
+	width: 7em;
+}
+
+#observationDetail .ui-panelgrid-cell.value {
+	width: auto;
+}
+
+#observationDetail .ui-inplace-content .ui-inputfield {
+	display: block;
+}
+
+#observationDetail {
+	margin-bottom: .6em;
+}
+
+#observationDetail .ui-panelgrid-content {
+	background: none;
+	border: none;
+	color: white;
+}
+
+#observationDetail .ui-outputpanel.editable {
+	padding: 0.2em 0.5em;
+	border: 0.063em inset #444;
+	border-radius: 0.188em;
+}
+
+#analysisDetail .ui-outputpanel.editable {
+	padding: 0.2em 0.5em;
+	border: 0.063em inset #444;
+	border-radius: 0.188em;
+}
+
+#observationDetail .ui-inplace-display.ui-state-highlight {
+	background: none;
+	text-decoration: underline;
+}
+
+.link-observation {
+	text-decoration: underline;
+}
+
+.link-observation:hover {
+	color: #AF2A01;
+}
+
+/* confirm dialog */
+
+#confirm {
+	width: 70%;
+	height: auto;
+	position: fixed;
+	top: 3em;
+	left: 3em;
+	display: none;
+	z-index: 1000005;
+}
+
+.ui-confirm-dialog .ui-button {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+}
+
+.ui-confirm-dialog .ui-state-hover {
+	background-color: #FCFCFC;
+	background: linear-gradient(0deg, #F2F2F2, #FEFEFE);
+}
+
+.ui-confirm-dialog .ui-dialog-titlebar {
+	background: none;
+	color: white;
+	text-shadow: none;
+}
+
+.ui-confirm-dialog-message {
+	color: white;
+}
+
+/* responsivity */
+
+@media screen and (max-width: 800px) {
+	#mainPage>form {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#eventGroupsForm {
+		font-size: 0.8em;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	#eventGroupsForm {
+		font-size: 1em;
+	}
+	#eventGroupsForm td {
+		border-right: 0;
+	}
+	.eventGroupsTable thead {
+		display: none;
+	}
+	.row-toggler-mobile {
+		display: block;
+		font-size: 0.9em;
+	}
+	.row-toggler-mobile span:before {
+		font-family: FontAwesome;
+		margin-right: .3em;
+	}
+	.row-toggler-mobile span:first-child:before {
+		content: "\f138";
+	}
+	.row-toggler-mobile span:last-child:before {
+		content: "\f13a";
+	}
+	.column-name {
+		margin-top: .6em;
+		font-size: 1.3em;
+	}
+	#eventGroupsForm .row-editor, #eventGroupsForm .column-remove, #eventGroupsForm .column-group-keys {
+		display: inline-block;
+		float: none;
+		width: auto;
+	}
+	#eventGroupsForm .ui-column-title, #eventGroupsForm .row-toggler {
+		display: none;
+	}
+	#eventGroupsForm td:nth-child(3) .ui-column-title, #eventGroupsForm td:nth-child(4) .ui-column-title {
+		display: block;
+	}
+	#categorySetForm .ui-cell-editing .ui-column-title, #categorySetForm .ui-cell-editing .ui-cell-editor-input {
+		margin-left: .4em;
+	}
+	#categorySetForm {
+		font-size: 0.8em;
+	}
+	#categorySetForm .row-editor .ui-icon {
+		position: absolute;
+		top: -1.2em;
+	}
+	#categorySetForm .ui-state-hover .ui-column-title, #categorySetForm .ui-state-highlight .ui-column-title {
+		color: black;
+	}
+	#feedbackAnalysisCategorySetForm .ui-cell-editing .ui-column-title, #feedbackAnalysisCategorySetForm .ui-cell-editing .ui-cell-editor-input {
+		margin-left: .4em;
+	}
+	#feedbackAnalysisCategorySetForm {
+		font-size: 0.8em;
+	}
+	#feedbackAnalysisCategorySetForm .row-editor .ui-icon {
+		position: absolute;
+		top: -1.2em;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#mainPage {
+		text-align: left;
+	}
+	#commandButtons button {
+		width: 100%;
+		text-align: left;
+	}
+	#otherAnalysesForm .ui-column-title {
+		display: none;
+	}
+	#otherObservationsForm .ui-column-title {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 370px) {
+	.categorySetCommandButtons>button {
+		width: 100%;
+		text-align: left;
+	}
+}
